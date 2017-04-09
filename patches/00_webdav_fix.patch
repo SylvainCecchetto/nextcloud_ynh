@@ -1,0 +1,31 @@
+--- apps/dav/lib/Connector/Sabre/FakeLockerPlugin.php	2017-02-04 01:08:10.996157037 +0100
++++ apps/dav/lib/Connector/Sabre/FakeLockerPlugin.php	2017-02-04 01:04:28.001241361 +0100
+@@ -136,6 +136,7 @@
+ 						new LockDiscovery([$lockInfo])
+ 		]);
+ 
++		$response->setStatus(200);
+ 		$response->setBody($body);
+ 
+ 		return false;
+--- apps/dav/lib/Server.php	2017-02-04 01:23:25.672419199 +0100
++++ apps/dav/lib/Server.php	2017-02-04 01:23:45.710433450 +0100
+@@ -150,12 +150,12 @@
+ 
+ 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
+ 		// we do not provide locking we emulate it using a fake locking plugin.
+-		if($request->isUserAgent([
+-			'/WebDAVFS/',
+-			'/Microsoft Office OneNote 2013/',
+-		])) {
+-			$this->server->addPlugin(new FakeLockerPlugin());
+-		}
++//		if($request->isUserAgent([
++//			'/WebDAVFS/',
++//			'/Microsoft Office OneNote 2013/',
++//		])) {
++		$this->server->addPlugin(new FakeLockerPlugin());
++//		}
+ 
+ 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
+ 			$this->server->addPlugin(new BrowserErrorPagePlugin());
